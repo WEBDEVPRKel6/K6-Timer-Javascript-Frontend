@@ -70,6 +70,18 @@ class StopwatchList extends HTMLElement {
 
   deleteAllStopwatch() {
     axios.delete("http://localhost:3000/stopwatch/delete");
+
+     this.innerHTML = `
+      <div class="align-center">
+        <button id="deleteall-btn" class="button deleteall-btn">
+          Delete All
+        </button>
+      </div>
+      <div class='stopwatch-list-container'>
+        <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
+        <button id='addStopwatch-btn' class='bg-green'>Add new</button>
+      </div>
+      `;
   }
 
   handleNonParallel(stopwatch) {
