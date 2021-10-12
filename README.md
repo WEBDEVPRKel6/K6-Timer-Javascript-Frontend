@@ -35,46 +35,15 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project is a mini project as an assignment for the Web Development course. In this project, we are making a stopwatch for calculating the time that students need to do their tasks. This stopwatch has some features, those are:
-
-* Adding a new stopwatch for the new task.
-* Deleting stopwatch.
-* Adding a name to each stopwatch.
-
-This project still needs some improvements and we are still working on it. We accept constructive criticism and suggestions to improve the quality of the stopwatch that we make.
 
 ### Built With
 
-Instead of frameworks, we are using pure Javascript (Vanilla Javascript). 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Clone the repo
-     ```sh
-	git clone https://github.com/WEBDEVPRKel6/K6-Timer-Javascript.git
-    ```
-2. Install all dependencies
-    ```sh
-    npm install .
-    ```
-3. Start dev server
-    ```sh
-    npm run start-dev
-    ```
-    Open your web-browser and access localhost in 8080 port
-4. run 
-    ```sh
-    npm run build
-    ```
-5. the build will be in `/dist` folder.
-
-You can do this in VSC or in your Command Prompt
-
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-This application can help you calculate the amount of time to do your task, so you don't have to calculate manually. This helps you especially when you need to report how long it took you to do some task. You can also add a new stopwatch as much as your tasks.
 
 
 <!-- CONTRIBUTING -->
@@ -96,7 +65,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/WEBDEVPRKel6/K6-Timer-Javascript.git]
+Project Link: [https://github.com/WEBDEVPRKel6/K6-Timer-Javascript-Frontend.git]
 
 Project Group: K6-3B-WebDev'2021
 
