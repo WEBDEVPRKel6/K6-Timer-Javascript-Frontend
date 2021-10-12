@@ -1,5 +1,4 @@
 import Time from '../util/time.js';
-import StopwatchDataList from "../data/stopwatchData.js";
 
 class Stopwatch extends HTMLElement {
   constructor() {
@@ -23,6 +22,10 @@ class Stopwatch extends HTMLElement {
 
   set handleDelete(value) {
     this._handleDelete = value;
+  }
+
+  set handleNonParallel(value) {
+    this._handleNonParallel = value;
   }
 
   set stopwatchData(value) {
@@ -56,20 +59,11 @@ class Stopwatch extends HTMLElement {
   }
 
   handleStart() {
+    this._handleNonParallel(this);
+
     this.startBtn.style.display = 'none';
     this.pauseBtn.style.display = 'block';
     this._running = true;
-
-    /* Pause The Rest Stopwatch */
-    alert("Stopwatch lainnya akan otomatis di pause");
-
-    // let stopwatchList = new StopwatchDataList(); 
-    // let stopwatchsData = stopwatchList.getData();
-    // let count = stopwatchList.getData().length;
-    // for (let i = 0; i < count; i++){
-    //   stopwatchsData[i]._running = false;
-    // }
-    // stopwatchList.setData(stopwatchsData);
 
     if (!this.interval) {
       this.interval = setInterval(() => this.handleUpdate(), 1000);
@@ -141,7 +135,7 @@ class Stopwatch extends HTMLElement {
       </div>
       <div class='flex space-between'>
         <button id='start-btn' class='bg-green'>Start</button>
-        <button id='pause-btn' class='bg-blue'>Pause</button>
+        <button id='pause-btn-${this._clockId}' class='bg-blue pause-btn'>Pause</button>
         <button id='stop-btn' class='bg-red'>Stop</button>
         <button id='delete-btn' class='bg-red'>Delete</button>
       </div>
@@ -150,7 +144,7 @@ class Stopwatch extends HTMLElement {
     `;
 
     this.stopwatchContainer = this.querySelector('#stopwatch-container'); 
-    this.pauseBtn = this.querySelector('#pause-btn');
+    this.pauseBtn = this.querySelector(`#pause-btn-${this._clockId}`);
     this.startBtn = this.querySelector('#start-btn');
     this.stopBtn = this.querySelector('#stop-btn');
     this.deleteBtn = this.querySelector('#delete-btn');
@@ -159,6 +153,7 @@ class Stopwatch extends HTMLElement {
     this.pauseBtn.addEventListener('click', () => this.handlePause());
     this.stopBtn.addEventListener('click', () => this.handleStop());
     this.deleteBtn.addEventListener('click', () => this._handleDelete(this));
+    
 
     if (this._running) {
       const newTime = (new Date().getTime() - new Date(this._date).getTime()) / 1000;

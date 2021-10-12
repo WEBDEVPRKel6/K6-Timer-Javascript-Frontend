@@ -5,11 +5,27 @@ class StopwatchList extends HTMLElement {
   constructor() {
     super();
     this.data = new StopwatchDataList();
+    console.log(this.data);
     this.stopwatchCount = this.data.getData().length;
+    StopwatchList.stopwatchIds = this.data.getData().map(stopwatch => stopwatch.id);
     this.addBtn;
     this.stopwatchList;
     this.titleForm;
-  }
+
+
+    // console.log(this.data.getData().map(stopwatch => stopwatch.id));
+    // s
+    // if(this.data.initiateData()){
+    //   // console.log(this.data);
+    //   this.stopwatchCount = this.data.getData().length;
+    //   StopwatchList.stopwatchIds = this.data.getData().map(stopwatch => stopwatch.id);
+    //   this.addBtn;
+    //   this.stopwatchList;
+    //   this.titleForm;
+
+    //   console.log(this.data.getData());
+    // }
+   }
 
   connectedCallback() {
     this.render();
@@ -19,7 +35,9 @@ class StopwatchList extends HTMLElement {
     const newStopwatch = document.createElement("stop-watch");
     newStopwatch.title = this.titleForm.value || "Untitled";
     newStopwatch.handleDelete = this.deleteStopwatch;
+    newStopwatch.handleNonParallel = this.handleNonParallel;
     newStopwatch.clockId = this.stopwatchCount;
+    StopwatchList.stopwatchIds.push(this.stopwatchCount);
     newStopwatch.stopwatchData = this.data;
     this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
 
@@ -35,7 +53,23 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteStopwatch(stopwatch) {
-    stopwatch.remove();
+    var data_del = new StopwatchDataList();
+
+    var r = confirm("Anda yakin menghapus stopwatch : " + stopwatch._title);
+    if (r) {
+      data_del.deleteData(stopwatch._clockId);
+      stopwatch.remove();
+    }
+  }
+
+  handleNonParallel(stopwatch) {
+    console.log(StopwatchList.stopwatchIds);
+    StopwatchList.stopwatchIds.forEach((id) => {
+      if(stopwatch._clockId === id)
+        return;
+
+      document.querySelector(`#pause-btn-${id}`).click();
+    })
   }
 
   render() {
@@ -60,6 +94,7 @@ class StopwatchList extends HTMLElement {
         newStopwatch.date = this.data.data[i].date;
         newStopwatch.running = this.data.data[i].running;
         newStopwatch.handleDelete = this.deleteStopwatch;
+        newStopwatch. handleNonParallel = this.handleNonParallel
         newStopwatch.stopwatchData = this.data;
         this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
       }
