@@ -135,7 +135,7 @@ button {
 }
 
 .deleteall-btn {
-  background-color: white;
+  background-color: rgb(253, 203, 203);
   color: black;
   border: 2px solid #fa0844;
 }

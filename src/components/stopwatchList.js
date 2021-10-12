@@ -16,33 +16,70 @@ class StopwatchList extends HTMLElement {
     this.titleForm;
   }
 
-  connectedCallback() {
+  async getStopwatchData() {
+    const stopwatchData = await axios.get("http://localhost:3000/stopwatch");
+    this.data = stopwatchData.data;
     this.render();
   }
 
-  addStopwatch() {
+  async connectedCallback() {
+    await this.getStopwatchData();
+  }
+
+  async addStopwatch() {
     const newStopwatch = document.createElement("stop-watch");
     newStopwatch.title = this.titleForm.value || "Untitled";
     newStopwatch.handleDelete = this.deleteStopwatch;
     newStopwatch.handleNonParallel = this.handleNonParallel;
-    newStopwatch.clockId = this.stopwatchCount;
     StopwatchList.stopwatchIds.push(this.stopwatchCount);
-    newStopwatch.stopwatchData = this.data;
-    this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
+    // newStopwatch.stopwatchData = this.data;
 
-    this.data.addData({
-      id: this.stopwatchCount,
+    let data = {
       title: this.titleForm.value || "Untitled",
       time: 0,
       running: false,
-    });
+      date: new Date(),
+    };
 
+    const resData = await axios.post(`http://localhost:3000/stopwatch`, data);
+
+    newStopwatch.clockId = resData.data.response.id;
+    newStopwatch.setAttribute("id", `stopwatch-${resData.data.response.id}`);
+    this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
     this.titleForm.value = "";
     this.stopwatchCount++;
   }
 
   deleteStopwatch(stopwatch) {
-    axios.delete(`http://localhost:3000/stopwatch/delete/${stopwatch.id}`);
+    var data_del = new StopwatchDataList();
+    var tmp = data_del.getData();
+    var idx;
+    // console.log("lama");
+    // console.log(data_del);
+    var r = confirm("Anda yakin menghapus stopwatch : " + stopwatch._title);
+    if (r == true) {
+      for (var i = 0; i < tmp.length; i++) {
+        if (stopwatch._clockId == tmp[i].id) {
+          tmp.splice(i, 1);
+          idx = i;
+          break;
+        }
+      }
+      for (idx; idx < tmp.length; idx++) {
+        tmp[idx].id = tmp[idx].id - 1;
+      }
+      // console.log("baru");
+      // console.log(tmp);
+      stopwatch.handlePause();
+      stopwatch.remove();
+      data_del.saveData(tmp);
+
+      axios.delete(
+        `http://localhost:3000/stopwatch/delete/${stopwatch._clockId}`
+      );
+    } else {
+      // Does Nothing
+    }
   }
 
   deleteAllStopwatch() {
@@ -66,7 +103,7 @@ class StopwatchList extends HTMLElement {
       </button>
     </div>
     <div class='stopwatch-list-container'>
-      <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Untitled'/>
+      <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
       <button id='addStopwatch-btn' class='bg-green'>Add new</button>
     </div>
     `;
@@ -80,17 +117,18 @@ class StopwatchList extends HTMLElement {
       this.deleteAllStopwatch()
     );
 
-    if (this.stopwatchCount > 0) {
-      for (let i = 0; i < this.stopwatchCount; i++) {
+    if (this.data.length > 0) {
+      for (let i = 0; i < this.data.length; i++) {
         const newStopwatch = document.createElement("stop-watch");
-        newStopwatch.title = this.data.title;
-        newStopwatch.clockId = this.data.id;
-        newStopwatch.time = this.data.time;
-        newStopwatch.date = this.data.date;
-        newStopwatch.running = this.data.running;
+        newStopwatch.setAttribute("id", `stopwatch-${this.data[i].id}`);
+        newStopwatch.title = this.data[i].title;
+        newStopwatch.clockId = this.data[i].id;
+        newStopwatch.time = this.data[i].time;
+        newStopwatch.date = this.data[i].date;
+        newStopwatch.running = this.data[i].running;
         newStopwatch.handleDelete = this.deleteStopwatch;
         newStopwatch.handleNonParallel = this.handleNonParallel;
-        newStopwatch.stopwatchData = this.data;
+        // newStopwatch.stopwatchData = this.data[i];
         this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
       }
     }
