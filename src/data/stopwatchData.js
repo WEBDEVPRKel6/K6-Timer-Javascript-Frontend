@@ -17,14 +17,15 @@ class StopwatchDataList {
   }
 
   addData(value) {
-    this.data.push(value);
-    localStorage.setItem("stopwatchData", JSON.stringify(this.data));
+    // this.data.push(value);
+    // localStorage.setItem("stopwatchData", JSON.stringify(this.data));
+    axios.post(`http://localhost:3000/stopwatch`, value);
   }
 
   setData(id, value) {
-    this.data.id = value;
+    // this.data[id] = value;
     // localStorage.setItem("stopwatchData", JSON.stringify(this.data));
-    axios.put(`http://localhost:3000/stopwatch/update/${id}`);
+    axios.put(`http://localhost:3000/stopwatch/update/${id}`, value);
   }
 
   getData() {

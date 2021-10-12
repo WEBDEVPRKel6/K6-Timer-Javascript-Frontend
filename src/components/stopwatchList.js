@@ -11,6 +11,7 @@ class StopwatchList extends HTMLElement {
       .getData()
       .map((stopwatch) => stopwatch.id);
     this.addBtn;
+    this.deleteAllBtn;
     this.stopwatchList;
     this.titleForm;
   }
@@ -41,8 +42,11 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteStopwatch(stopwatch) {
-    // stopwatch.remove();
-    axios.delete(`http://localhost:3000/delete/${stopwatch.id}`);
+    axios.delete(`http://localhost:3000/stopwatch/delete/${stopwatch.id}`);
+  }
+
+  deleteAllStopwatch() {
+    axios.delete("http://localhost:3000/stopwatch/delete");
   }
 
   handleNonParallel(stopwatch) {
@@ -56,6 +60,11 @@ class StopwatchList extends HTMLElement {
 
   render() {
     this.innerHTML = `
+    <div class="align-center">
+      <button id="deleteall-btn" class="button deleteall-btn">
+        Delete All
+      </button>
+    </div>
     <div class='stopwatch-list-container'>
       <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Untitled'/>
       <button id='addStopwatch-btn' class='bg-green'>Add new</button>
@@ -66,6 +75,10 @@ class StopwatchList extends HTMLElement {
     this.stopwatchList = this.querySelector(".stopwatch-list-container");
     this.addBtn = this.querySelector("#addStopwatch-btn");
     this.addBtn.addEventListener("click", () => this.addStopwatch());
+    this.deleteAllBtn = this.querySelector("#deleteall-btn");
+    this.deleteAllBtn.addEventListener("click", () =>
+      this.deleteAllStopwatch()
+    );
 
     if (this.stopwatchCount > 0) {
       for (let i = 0; i < this.stopwatchCount; i++) {
