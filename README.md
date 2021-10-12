@@ -1,5 +1,5 @@
 <!-- PROJECT SHIELDS -->
-# K6-Timer-Javascript. 
+# K6-Timer-Javascript-Frontend. 
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -58,7 +58,7 @@ We are using:
 
 1. Clone the repo
      ```sh
-	git clone https://github.com/WEBDEVPRKel6/K6-Timer-Javascript.git
+	git clone https://github.com/WEBDEVPRKel6/K6-Timer-Javascript-Frontend.git
     ```
 2. Install all dependencies
     ```sh
@@ -75,6 +75,8 @@ We are using:
     ```
 5. the build will be in `/dist` folder.
 
+`NOTE : you need to run backend server to run the app properly` </br>
+`Our backend server can be found here : https://github.com/WEBDEVPRKel6/K6-Timer-Javascript-Backend` </br>
 You can do this in VSC or in your Command Prompt
 
 <!-- USAGE EXAMPLES -->
@@ -87,14 +89,15 @@ This application can help you calculate the amount of time to do your task, so y
 4. To pause the stopwatch, you can click the `Pause` button.
 5. To stop the stopwatch, you can click the `Stop` button.
 6. You can also delete the stopwatch by clicking the `Delete` button.
+7. You can delete all current stopwatch by clicking `Delete All` button.
 
 <!-- ROADMAP -->
 ## Roadmap
 - [x] Analyze the requirement
 - [x] Developing HTML and CSS
 - [x] Adding the Vanilla JS script
-- [x] Adding the Add button.
-- [x] Adding local storage.
+- [x] Adding the buttons.
+- [x] Connecting to the database.
 - [x] Fixing some bug.  
 
 See the [open issues](https://github.com/WEBDEVPRKel6/K6-Timer-Javascript/issues) for a full list of proposed features (and known issues).
