@@ -22,9 +22,9 @@ class StopwatchDataList {
   }
 
   setData(id, value) {
-    this.data[id] = value;
-    localStorage.setItem("stopwatchData", JSON.stringify(this.data));
-    // axios.put(`http://localhost:3000/stopwatch/update/${id}`)
+    this.data.id = value;
+    // localStorage.setItem("stopwatchData", JSON.stringify(this.data));
+    axios.put(`http://localhost:3000/stopwatch/update/${id}`);
   }
 
   getData() {

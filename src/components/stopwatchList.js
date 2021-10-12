@@ -41,8 +41,8 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteStopwatch(stopwatch) {
-    stopwatch.remove();
-    // axios.delete(`http://localhost:3000/delete/${stopwatch.id}`);
+    // stopwatch.remove();
+    axios.delete(`http://localhost:3000/delete/${stopwatch.id}`);
   }
 
   handleNonParallel(stopwatch) {
@@ -70,11 +70,11 @@ class StopwatchList extends HTMLElement {
     if (this.stopwatchCount > 0) {
       for (let i = 0; i < this.stopwatchCount; i++) {
         const newStopwatch = document.createElement("stop-watch");
-        newStopwatch.title = this.data.data[i].title;
-        newStopwatch.clockId = this.data.data[i].id;
-        newStopwatch.time = this.data.data[i].time;
-        newStopwatch.date = this.data.data[i].date;
-        newStopwatch.running = this.data.data[i].running;
+        newStopwatch.title = this.data.title;
+        newStopwatch.clockId = this.data.id;
+        newStopwatch.time = this.data.time;
+        newStopwatch.date = this.data.date;
+        newStopwatch.running = this.data.running;
         newStopwatch.handleDelete = this.deleteStopwatch;
         newStopwatch.handleNonParallel = this.handleNonParallel;
         newStopwatch.stopwatchData = this.data;
