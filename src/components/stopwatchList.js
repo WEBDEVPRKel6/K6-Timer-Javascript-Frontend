@@ -51,28 +51,11 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteStopwatch(stopwatch) {
-    var data_del = new StopwatchDataList();
-    var tmp = data_del.getData();
-    var idx;
-    // console.log("lama");
-    // console.log(data_del);
+    // Fix + Delete unused variable 
     var r = confirm("Anda yakin menghapus stopwatch : " + stopwatch._title);
     if (r == true) {
-      for (var i = 0; i < tmp.length; i++) {
-        if (stopwatch._clockId == tmp[i].id) {
-          tmp.splice(i, 1);
-          idx = i;
-          break;
-        }
-      }
-      for (idx; idx < tmp.length; idx++) {
-        tmp[idx].id = tmp[idx].id - 1;
-      }
-      // console.log("baru");
-      // console.log(tmp);
       stopwatch.handlePause();
       stopwatch.remove();
-      data_del.saveData(tmp);
 
       axios.delete(
         `http://localhost:3000/stopwatch/delete/${stopwatch._clockId}`
