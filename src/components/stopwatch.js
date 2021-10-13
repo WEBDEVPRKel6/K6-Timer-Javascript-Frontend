@@ -56,7 +56,10 @@ class Stopwatch extends HTMLElement {
   updateData() {
     let data = {
       title: this._title,
-      time: this._time,
+      // Fix Update (close page) error ketika stopwatch kondisi running,
+      // Penyebab : data _time kalau update close variable nya float (koma)
+      // jadi error 500 wakktu update, jadi diubah ke int dulu sblm keserver.
+      time: parseInt(this._time),
       date: new Date(),
       running: this._running,
     };
