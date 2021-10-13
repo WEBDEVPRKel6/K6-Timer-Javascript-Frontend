@@ -1,6 +1,6 @@
 import "./stopwatch.js";
 import StopwatchDataList from "../data/stopwatchData.js";
-import axios from "axios";
+import http from '../../http'
 
 class StopwatchList extends HTMLElement {
   constructor() {
@@ -17,7 +17,7 @@ class StopwatchList extends HTMLElement {
   }
 
   async getStopwatchData() {
-    const stopwatchData = await axios.get("http://localhost:3000/stopwatch");
+    const stopwatchData = await http.get("/stopwatch");
     this.data = stopwatchData.data;
     this.render();
   }
@@ -41,7 +41,7 @@ class StopwatchList extends HTMLElement {
       date: new Date(),
     };
 
-    const resData = await axios.post(`http://localhost:3000/stopwatch`, data);
+    const resData = await http.post(`/stopwatch`, data);
 
     newStopwatch.clockId = resData.data.response.id;
     newStopwatch.setAttribute("id", `stopwatch-${resData.data.response.id}`);
@@ -56,8 +56,8 @@ class StopwatchList extends HTMLElement {
       stopwatch.handlePause();
       stopwatch.remove();
 
-      axios.delete(
-        `http://localhost:3000/stopwatch/delete/${stopwatch._clockId}`
+      http.delete(
+        `/stopwatch/delete/${stopwatch._clockId}`
       );
     } else {
       // Does Nothing
@@ -65,7 +65,7 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteAllStopwatch() {
-    axios.delete("http://localhost:3000/stopwatch/delete");
+    http.delete("/stopwatch/delete");
 
     this.innerHTML = `
     <div class="align-center">
