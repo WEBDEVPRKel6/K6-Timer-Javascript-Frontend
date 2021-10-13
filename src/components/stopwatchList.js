@@ -1,6 +1,6 @@
 import "./stopwatch.js";
 import StopwatchDataList from "../data/stopwatchData.js";
-import axios from "axios";
+import http from "../../http";
 
 class StopwatchList extends HTMLElement {
   constructor() {
@@ -17,7 +17,7 @@ class StopwatchList extends HTMLElement {
   }
 
   async getStopwatchData() {
-    const stopwatchData = await axios.get("http://localhost:3000/stopwatch");
+    const stopwatchData = await http.get("/stopwatch");
     this.data = stopwatchData.data;
     this.render();
   }
@@ -41,7 +41,7 @@ class StopwatchList extends HTMLElement {
       date: new Date(),
     };
 
-    const resData = await axios.post(`http://localhost:3000/stopwatch`, data);
+    const resData = await http.post(`/stopwatch`, data);
 
     newStopwatch.clockId = resData.data.response.id;
     newStopwatch.setAttribute("id", `stopwatch-${resData.data.response.id}`);
@@ -51,39 +51,31 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteStopwatch(stopwatch) {
-    var data_del = new StopwatchDataList();
-    var tmp = data_del.getData();
-    var idx;
-    // console.log("lama");
-    // console.log(data_del);
     var r = confirm("Anda yakin menghapus stopwatch : " + stopwatch._title);
     if (r == true) {
-      for (var i = 0; i < tmp.length; i++) {
-        if (stopwatch._clockId == tmp[i].id) {
-          tmp.splice(i, 1);
-          idx = i;
-          break;
-        }
-      }
-      for (idx; idx < tmp.length; idx++) {
-        tmp[idx].id = tmp[idx].id - 1;
-      }
-      // console.log("baru");
-      // console.log(tmp);
       stopwatch.handlePause();
       stopwatch.remove();
-      data_del.saveData(tmp);
 
-      axios.delete(
-        `http://localhost:3000/stopwatch/delete/${stopwatch._clockId}`
-      );
+      http.delete(`/stopwatch/delete/${stopwatch._clockId}`);
     } else {
       // Does Nothing
     }
   }
 
   deleteAllStopwatch() {
-    axios.delete("http://localhost:3000/stopwatch/delete");
+    http.delete("/stopwatch/delete");
+
+    this.innerHTML = `
+    <div class="align-center">
+      <button id="deleteall-btn" class="button deleteall-btn">
+        Delete All
+      </button>
+    </div>
+    <div class='stopwatch-list-container'>
+      <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
+      <button id='addStopwatch-btn' class='bg-green'>Add new</button>
+    </div>
+    `;
   }
 
   handleNonParallel(stopwatch) {
