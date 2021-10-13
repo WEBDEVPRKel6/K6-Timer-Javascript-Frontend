@@ -1,5 +1,5 @@
 <!-- PROJECT SHIELDS -->
-# K6-Timer-Javascript-Frontend. 
+# K6-Timer-Javascript-Frontend 
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
