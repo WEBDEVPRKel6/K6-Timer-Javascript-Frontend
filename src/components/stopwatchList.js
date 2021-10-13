@@ -22,6 +22,8 @@ class StopwatchList extends HTMLElement {
     // Get data id DB buat stopwatch yg udh ada
     StopwatchList.stopwatchIds = this.data
       .map((stopwatch) => stopwatch.id);
+      
+    console.log(StopwatchList);
     this.render();
   }
 
@@ -59,9 +61,14 @@ class StopwatchList extends HTMLElement {
     // Fix + Delete unused variable 
     var r = confirm("Anda yakin menghapus stopwatch : " + stopwatch._title);
     if (r == true) {
-      stopwatch.handlePause();
+      // Delete Data ID Stopwatch di StopwatchList
+      for(var i = 0; i < StopwatchList.stopwatchIds.length; i++){ 
+        if (stopwatch._clockId == StopwatchList.stopwatchIds[i]){
+          StopwatchList.stopwatchIds.splice(i,1);
+        }
+      }
+      console.log(StopwatchList.stopwatchIds);
       stopwatch.remove();
-
       axios.delete(
         `http://localhost:3000/stopwatch/delete/${stopwatch._clockId}`
       );
@@ -74,17 +81,8 @@ class StopwatchList extends HTMLElement {
     // Add Confirm Delete All Stopwatch
     var r = confirm("Anda yakin menghapus semua stopwatch ? ");
     if (r == true) {
-      this.innerHTML = `
-        <div class="align-center">
-          <button id="deleteall-btn" class="button deleteall-btn">
-            Delete All
-          </button>
-        </div>
-        <div class='stopwatch-list-container'>
-          <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
-          <button id='addStopwatch-btn' class='bg-green'>Add new</button>
-        </div>
-        `;
+      StopwatchList.stopwatchIds = [];
+      this.render();
       axios.delete("http://localhost:3000/stopwatch/delete");
     } else {
       // Does Nothing
@@ -95,9 +93,9 @@ class StopwatchList extends HTMLElement {
     console.log('Data List : ');
     console.log(StopwatchList.stopwatchIds);
     StopwatchList.stopwatchIds.forEach((id) => {
-      if (stopwatch._clockId === id) return;
-
-      document.querySelector(`#pause-btn-${id}`).click();
+      if (stopwatch._clockId !== id){
+        document.querySelector(`#pause-btn-${id}`).click();
+      }
     });
   }
 
