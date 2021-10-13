@@ -52,6 +52,7 @@ We are using:
 * HTML
 * CSS
 * Vanilla JS
+* axios
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -100,7 +101,7 @@ This application can help you calculate the amount of time to do your task, so y
 - [x] Connecting to the database.
 - [x] Fixing some bug.  
 
-See the [open issues](https://github.com/WEBDEVPRKel6/K6-Timer-Javascript/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/WEBDEVPRKel6/K6-Timer-Javascript-Frontend/issues) for a full list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -122,7 +123,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/WEBDEVPRKel6/K6-Timer-Javascript.git]
+Project Link: [https://github.com/WEBDEVPRKel6/K6-Timer-Javascript-Frontend.git]
 
 Project Group: K6-3B-WebDev'2021
 
