@@ -19,6 +19,9 @@ class StopwatchList extends HTMLElement {
   async getStopwatchData() {
     const stopwatchData = await axios.get("http://localhost:3000/stopwatch");
     this.data = stopwatchData.data;
+    // Get data id DB buat stopwatch yg udh ada
+    StopwatchList.stopwatchIds = this.data
+      .map((stopwatch) => stopwatch.id);
     this.render();
   }
 
@@ -31,7 +34,6 @@ class StopwatchList extends HTMLElement {
     newStopwatch.title = this.titleForm.value || "Untitled";
     newStopwatch.handleDelete = this.deleteStopwatch;
     newStopwatch.handleNonParallel = this.handleNonParallel;
-    StopwatchList.stopwatchIds.push(this.stopwatchCount);
     // newStopwatch.stopwatchData = this.data;
 
     let data = {
@@ -42,7 +44,10 @@ class StopwatchList extends HTMLElement {
     };
 
     const resData = await axios.post(`http://localhost:3000/stopwatch`, data);
-
+    
+    //Pindah Kebawah, biar dapet id stopwatch baru dari DB
+    StopwatchList.stopwatchIds.push(resData.data.response.id);
+    
     newStopwatch.clockId = resData.data.response.id;
     newStopwatch.setAttribute("id", `stopwatch-${resData.data.response.id}`);
     this.stopwatchList.insertBefore(newStopwatch, this.titleForm);
@@ -66,10 +71,28 @@ class StopwatchList extends HTMLElement {
   }
 
   deleteAllStopwatch() {
-    axios.delete("http://localhost:3000/stopwatch/delete");
+    // Add Confirm Delete All Stopwatch
+    var r = confirm("Anda yakin menghapus semua stopwatch ? ");
+    if (r == true) {
+      this.innerHTML = `
+        <div class="align-center">
+          <button id="deleteall-btn" class="button deleteall-btn">
+            Delete All
+          </button>
+        </div>
+        <div class='stopwatch-list-container'>
+          <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
+          <button id='addStopwatch-btn' class='bg-green'>Add new</button>
+        </div>
+        `;
+      axios.delete("http://localhost:3000/stopwatch/delete");
+    } else {
+      // Does Nothing
+    }
   }
 
   handleNonParallel(stopwatch) {
+    console.log('Data List : ');
     console.log(StopwatchList.stopwatchIds);
     StopwatchList.stopwatchIds.forEach((id) => {
       if (stopwatch._clockId === id) return;
@@ -87,7 +110,7 @@ class StopwatchList extends HTMLElement {
     </div>
     <div class='stopwatch-list-container'>
       <input type="text" name="title" id="stopwatch-title-form" class="align-center" placeholder='Nama Tugas e.g. WebDev Praktek'/>
-      <button id='addStopwatch-btn' class='bg-green'>Add new</button>
+      <button id='addStopwatch-btn' class='bg-green'>Add Stopwatch</button>
     </div>
     `;
 
