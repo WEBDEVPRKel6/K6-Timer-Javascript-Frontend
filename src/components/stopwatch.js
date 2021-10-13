@@ -1,5 +1,5 @@
 import Time from "../util/time.js";
-import axios from "axios";
+import http from '../../http'
 
 class Stopwatch extends HTMLElement {
   constructor() {
@@ -60,7 +60,7 @@ class Stopwatch extends HTMLElement {
       date: new Date(),
       running: this._running,
     };
-    axios.put(`http://localhost:3000/stopwatch/update/${this._clockId}`, data);
+    http.put(`/stopwatch/update/${this._clockId}`, data);
   }
 
   handleStart() {

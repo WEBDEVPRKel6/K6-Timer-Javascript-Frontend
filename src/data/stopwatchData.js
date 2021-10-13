@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from '../../http'
 
 class StopwatchDataList {
   constructor() {
@@ -11,7 +11,7 @@ class StopwatchDataList {
     // this.data.push(value);
     // localStorage.setItem("stopwatchData", JSON.stringify(this.data));
     console.log(`ADD VALUE ${value}`);
-    axios.post(`http://localhost:3000/stopwatch`, value);
+    http.post(`/stopwatch`, value);
   }
 
   getData() {
